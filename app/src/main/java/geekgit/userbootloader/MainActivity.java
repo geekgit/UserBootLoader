@@ -15,13 +15,18 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent=getIntent();
         String extra_boot_flag=intent.getStringExtra("extra_boot_flag");
-        if(extra_boot_flag.equals("startup"))
-        {
-            Working.WriteBootStartToLog();
+        if(extra_boot_flag!=null) {
+            if (extra_boot_flag.equals("startup")) {
+                Working.WriteBootStartToLog();
+                Context context = this.getBaseContext();
+                Working.MakeNotification(context, 0, "UserBootLoader", "Boot Entrypoint");
+            }
         }
         else
         {
             Working.WriteMainStartToLog();
+            Context context=this.getBaseContext();
+            Working.MakeNotification(context,1,"UserBootLoader","Manual Entrypoint");
         }
         //Working.WriteMainStartToLog();
         //Working.TrySuperAction();
