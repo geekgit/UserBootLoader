@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("DEBUG","UserBootLoader Main Main Main");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
             if (extra_boot_flag.equals("startup")) {
                 Working.WriteBootStartToLog();
                 Context context = this.getBaseContext();
-                Working.MakeNotification(context, 0, "UserBootLoader", "Boot Entrypoint");
+                Working.MakeNotification(context, 1, "UserBootLoader", "Boot Entrypoint");
             }
         }
         else
@@ -28,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
             Context context=this.getBaseContext();
             Working.MakeNotification(context,1,"UserBootLoader","Manual Entrypoint");
         }
-        //Working.WriteMainStartToLog();
-        //Working.TrySuperAction();
 
     }
 }
