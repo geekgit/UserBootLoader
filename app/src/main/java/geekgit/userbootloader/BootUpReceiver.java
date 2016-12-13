@@ -19,5 +19,7 @@ public class BootUpReceiver extends BroadcastReceiver {
             Log.d("DEBUG","UserBootLoader DEBUG Boot Exception: "+E.getMessage());
             Log.d("DEBUG","UserBootLoader DEBUG Boot End FAIL");
         }
+        Log.d("DEBUG","UserBootLoader procedure");
+        Working.Procedure(context);
     }
 }

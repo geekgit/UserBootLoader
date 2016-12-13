@@ -7,11 +7,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.text.format.Time;
+import android.widget.Toast;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 public class Working {
     private static final String LogFileName="/sdcard/userbootloader.log.txt";
@@ -85,5 +92,115 @@ public class Working {
         n.flags=n.flags|Notification.FLAG_NO_CLEAR|Notification.FLAG_ONGOING_EVENT;
         NotificationManager nm=(NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NID,n);
+    }
+    public static void ShowMessage(Context context, String string)
+    {
+        Toast.makeText(context,string, Toast.LENGTH_SHORT).show();
+    }
+    public static void CreateDummyDir(Context context)
+    {
+        final String LoadPath="/sdcard/UserBootLoader";
+        File f=new File("/sdcard/UserBootLoader");
+        if(f.exists())
+        {
+            Working.ShowMessage(context,"/sdcard/UserBootLoader' already exists");
+        }
+        else
+        {
+            try {
+                f.mkdirs();
+                File start_sh_file = new File(f, "00_start.sh");
+                FileWriter fw = new FileWriter(start_sh_file, true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.append("#!/bin/sh"+"\n");
+                bw.append("echo \"Hello, shell!\""+"\n");
+                bw.append("echo \"User: $USER\""+"\n");
+                bw.append("echo a > /sdcard/userbootloader.start.log.txt"+"\n");
+                bw.close();
+            }
+            catch (Exception E)
+            {
+                Working.ShowMessage(context,E.getMessage());
+            }
+        }
+    }
+    public static void RemoveDir(Context context)
+    {
+
+        final String LoadPath="/sdcard/UserBootLoader";
+        File f=new File("/sdcard/UserBootLoader");
+        try {
+            if(f.exists()&&f.isDirectory()) FileUtils.deleteDirectory(f);
+            if(f.exists()&&!f.isDirectory()) f.delete();
+        }
+        catch (Exception E)
+        {
+            Working.ShowMessage(context,E.getMessage());
+        }
+    }
+    public static void Procedure(Context context)
+    {
+        final String LoadPath="/sdcard/UserBootLoader";
+        File f=new File("/sdcard/UserBootLoader");
+        if(f.exists()&&f.isDirectory())
+        {
+            Working.ShowMessage(context,"Directory '/sdcard/UserBootLoader' - OK");
+        }
+        if(!f.exists())
+        {
+            Working.ShowMessage(context,"Directory '/sdcard/UserBootLoader' not found");
+        }
+        if(f.exists()&&!f.isDirectory())
+        {
+            Working.ShowMessage(context,"Error. '/sdcard/UserBoootLoader' != directory");
+        }
+    }
+    public static String RootExecute(Context context, String cmd)
+    {
+        //throw new java.lang.UnsupportedOperationException();
+        StringBuilder sb = new StringBuilder();
+        try {
+            Process p = Runtime.getRuntime().exec(new String[]{"su","-c",cmd});
+            InputStream ip = p.getInputStream();
+            InputStreamReader isr = new InputStreamReader(ip);
+            Reader r = (Reader) isr;
+            BufferedReader br = new BufferedReader(r);
+
+            while (true) {
+                String chunk;
+                chunk = br.readLine();
+                if (chunk == null) break;
+                sb.append(chunk + "\n");
+            }
+        } catch (Exception E) {
+            sb.append(E.getMessage()+"\n");
+        }
+        String result=sb.toString();
+        if(result.equals("")) return "N/A";
+        else return result;
+    }
+    public static String UserExecute(Context context, String cmd)
+    {
+        //throw new java.lang.UnsupportedOperationException();
+        StringBuilder sb = new StringBuilder();
+        try {
+            Process p = Runtime.getRuntime().exec(cmd);
+            InputStream ip = p.getInputStream();
+            InputStreamReader isr = new InputStreamReader(ip);
+            Reader r = (Reader) isr;
+            BufferedReader br = new BufferedReader(r);
+
+            while (true) {
+                String chunk;
+                chunk = br.readLine();
+                if (chunk == null) break;
+                sb.append(chunk + "\n");
+            }
+        } catch (Exception E) {
+            sb.append(E.getMessage()+"\n");
+        }
+        String result=sb.toString();
+        if(result.equals("")) return "N/A";
+        else return result;
     }
 }

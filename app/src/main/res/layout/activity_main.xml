@@ -13,5 +13,56 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="[UserBootLoader]" />
+        android:text="[UserBootLoader]"
+        android:id="@+id/DefaultTextView" />
+
+    <Button
+        android:text="Manual Start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ManualStartButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Remove /sdcard/UserBootLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/RemoveButton"
+        android:layout_marginBottom="12dp"
+        android:layout_above="@+id/ManualStartButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Create /sdcard/UserBootLoader directory + dummy scripts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/CreateButton"
+        android:layout_marginBottom="19dp"
+        android:layout_above="@+id/RemoveButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Boot 00_start.sh (user)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/BootStartShUserButton"
+        android:layout_below="@+id/DefaultTextView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="26dp"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Boot 00_start.sh (root)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/BootStartShRootButton"
+        android:layout_marginTop="18dp"
+        android:layout_below="@+id/BootStartShUserButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
